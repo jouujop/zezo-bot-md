@@ -6,7 +6,7 @@ import {instagramdl} from '@bochilteam/scraper';
 import instagramDl from '@sasmeee/igdl';
 import {fileTypeFromBuffer} from 'file-type';
 const handler = async (m, {conn, args, command, usedPrefix}) => {
-  if (!args[0]) throw `*[❗معلومه❗] امر خاطئ اكتب: ${usedPrefix + command}* https://www.instagram.com/reel/C5GSbqyKXeN/?igsh=Z293NGlmbzRhdGFl`;
+  if (!args[0]) throw `*[❗معلومه❗] امر خاطئ اكتب: ${usedPrefix + command}* (اللينك)`;
   m.reply(global.wait);
   try {
 const img = await instagramDl(args[0]);
