@@ -1,18 +1,29 @@
-let handler = async (m, { conn, text }) => {
-    let who
-    if (m.isGroup) who = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : text
+//import db from '../lib/database.js'
+
+let handler = async (m, { conn, text, usedPrefix, command }) => {
+let who
+    if (m.isGroup) who = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : false
     else who = m.chat
-    if (!who) throw 'قم بالإشارة الى الشخص الذي تريده ان يصبح ضمن لائحة المالكين للبوت او ما يسمى ب onwer bot'
-    if (global.owner.includes(who.split('@')[0])) throw 'لقد أصبح هذا الشخص هو المالك!'
-    global.owner.push([who.split('@')[0], m.name, true])
-    const caption = `الآن @${who.split('@')[0]}   لقد أصبح مالكًا للبوت ♥`
-    await conn.reply(m.chat, caption, m, {
-        mentions: conn.parseMention(caption)
-    });
+    let user = global.db.data.users[who]
+    if (!who) throw `✳️ قم بعمل منشن للشخص الذي تريد وضعه بريم\n\n📌 مثل : ${usedPrefix + command} @user`
+if (global.prems.includes(who.split`@`[0])) throw '✳️ هذا الشخص بريم بالفعل'
+global.prems.push(`${who.split`@`[0]}`)
+
+conn.reply(m.chat, `
+✅ اصبح الان بريم
+
+@${who.split`@`[0]} now you become a premium user
+┌───────────
+▢ *Number:* ${user.name}
+└───────────
+`, m, { mentions: [who] })
+
 }
-handler.help = ['addowner']
+handler.help = ['addprem <@tag>']
 handler.tags = ['owner']
-handler.command = /^addowner|بريم|خد$/i
-handler.owner = true
+handler.command = ['addprem', 'addpremium','بريم'] 
+
+handler.group = true
+handler.rowner = true
 
 export default handler
